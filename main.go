@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os"
 )
 
 type password struct {
@@ -44,7 +43,19 @@ func main() {
 	generatedPassword, err := generatePassword(password)
 	if err != nil {
 		fmt.Println(err)
-		os.Exit(1)
+		return
+	}
+
+	err = hasAllRequiredCharacters(generatedPassword, password)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	err = hasExpectedLength(generatedPassword, password.Size)
+	if err != nil {
+		fmt.Println(err)
+		return
 	}
 
 	fmt.Println("\nGenerated password:", generatedPassword)

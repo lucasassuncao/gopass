@@ -199,15 +199,5 @@ func generatePassword(password *password) (string, error) {
 
 	finalPassword := string(characters)
 
-	err := hasAllRequiredCharacters(finalPassword, password)
-	if err != nil {
-		return "", err
-	}
-
-	err = hasExpectedLength(finalPassword, password.Size)
-	if err != nil {
-		return "", err
-	}
-
 	return finalPassword, nil
 }
