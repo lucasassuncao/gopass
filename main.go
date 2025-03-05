@@ -27,8 +27,8 @@ func main() {
 		return
 	}
 
-	startsWith, _ := promptStartCharacterType()
-	endsWith, _ := promptEndCharacterType()
+	startsWith, _ := promptCharacterType("Your password should starts with?")
+	endsWith, _ := promptCharacterType("Your password should ends with?")
 
 	withNumbers, _ = promptYesOrNo("Should the password contain numbers?")
 	withSpecialChar, _ = promptYesOrNo("Should the password contain special characters?")

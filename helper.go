@@ -109,14 +109,9 @@ func hasExpectedLength(s string, expectedSize int) error {
 	return nil
 }
 
-// promptStartCharacterType prompts the user to select the type of character the password should start with.
-func promptStartCharacterType() (string, error) {
-	return pterm.DefaultInteractiveSelect.WithDefaultText("Your password should starts with?").WithOptions(typs).Show()
-}
-
-// promptEndCharacterType prompts the user to select the type of character the password should end with.
-func promptEndCharacterType() (string, error) {
-	return pterm.DefaultInteractiveSelect.WithDefaultText("Your password should ends with?").WithOptions(typs).Show()
+// promptCharacterType prompts the user to select the type of character (for first and last characters).
+func promptCharacterType(text string) (string, error) {
+	return pterm.DefaultInteractiveSelect.WithDefaultText(text).WithOptions(typs).Show()
 }
 
 // promptYesOrNo prompts the user with a Yes/No question using an interactive confirmation.
