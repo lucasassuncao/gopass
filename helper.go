@@ -15,6 +15,8 @@ import (
 var specialChars = []rune{'!', '@', '#', '$', '%', '&', '*'}
 var typs = []string{"Lowercase", "Uppercase", "Number", "Special Character"}
 
+// getRune returns a rune based on the specified charType.
+// It defaults to returning a random letter.
 func getRune(charType string) rune {
 	switch charType {
 	default:
@@ -36,7 +38,7 @@ func getRune(charType string) rune {
 // - 20% chance to return a random number if withNumbers is true.
 // - 10% chance to return a random special character if withSpecial is true.
 // If the conditions for numbers or special characters are not met, it defaults to returning a random letter.
-func getRandomRune(withNumbers, withSpecial bool) rune {
+func getRandomRune(password *password) rune {
 	roll := rand.Intn(100)
 
 	switch {
@@ -45,9 +47,9 @@ func getRandomRune(withNumbers, withSpecial bool) rune {
 			return rune('a') + rand.Int31n(26)
 		}
 		return rune('A') + rand.Int31n(26)
-	case roll < 90 && withNumbers:
+	case roll < 90 && password.WithNumbers:
 		return rune('0') + rand.Int31n(10)
-	case roll < 100 && withSpecial:
+	case roll < 100 && password.WithSpecialChar:
 		return specialChars[rand.Intn(len(specialChars))]
 	default:
 		if rand.Intn(2) == 0 {
@@ -107,18 +109,18 @@ func hasExpectedLength(s string, expectedSize int) error {
 	return nil
 }
 
-// selectStartsWith prompts the user to select the type of character the password should start with.
-func selectStartsWith() (string, error) {
+// promptStartCharacterType prompts the user to select the type of character the password should start with.
+func promptStartCharacterType() (string, error) {
 	return pterm.DefaultInteractiveSelect.WithDefaultText("Your password should starts with?").WithOptions(typs).Show()
 }
 
-// selectEndsWith prompts the user to select the type of character the password should end with.
-func selectEndsWith() (string, error) {
+// promptEndCharacterType prompts the user to select the type of character the password should end with.
+func promptEndCharacterType() (string, error) {
 	return pterm.DefaultInteractiveSelect.WithDefaultText("Your password should ends with?").WithOptions(typs).Show()
 }
 
-// inputYesOrNo prompts the user with a Yes/No question using an interactive confirmation.
-func inputYesOrNo(text string) (bool, error) {
+// promptYesOrNo prompts the user with a Yes/No question using an interactive confirmation.
+func promptYesOrNo(text string) (bool, error) {
 	return pterm.DefaultInteractiveConfirm.WithDefaultText(text).Show()
 }
 
@@ -184,7 +186,7 @@ func generatePassword(password *password) (string, error) {
 
 	// Fills the remaining characters randomly
 	for i := 1; i <= remainingChars; i++ {
-		characters = append(characters, getRandomRune(password.WithNumbers, password.WithSpecialChar))
+		characters = append(characters, getRandomRune(password))
 	}
 
 	// sets the last character

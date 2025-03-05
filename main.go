@@ -27,11 +27,11 @@ func main() {
 		return
 	}
 
-	startsWith, _ := selectStartsWith()
-	endsWith, _ := selectEndsWith()
+	startsWith, _ := promptStartCharacterType()
+	endsWith, _ := promptEndCharacterType()
 
-	withNumbers, _ = inputYesOrNo("Should the password contain numbers?")
-	withSpecialChar, _ = inputYesOrNo("Should the password contain special characters?")
+	withNumbers, _ = promptYesOrNo("Should the password contain numbers?")
+	withSpecialChar, _ = promptYesOrNo("Should the password contain special characters?")
 
 	password := &password{
 		Size:            size,
