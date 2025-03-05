@@ -22,7 +22,7 @@ func main() {
 		return
 	}
 
-	if size == 0 || size < 4 {
+	if size < 4 {
 		fmt.Println("Mininum password size is 4")
 		return
 	}
