@@ -3,6 +3,7 @@ module gopass
 go 1.24.0
 
 require (
+	github.com/emirpasic/gods v1.18.1
 	github.com/pterm/pterm v0.12.80
 	github.com/spf13/cast v1.7.1
 )

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 )
 
 type password struct {
@@ -13,22 +14,24 @@ type password struct {
 }
 
 func main() {
+	var withNumbers, withSpecialChar bool
+
 	size, err := inputPasswordSize()
 	if err != nil {
 		fmt.Println("Error while getting password size:", err)
 		return
 	}
 
-	if size == 0 {
-		fmt.Println("Password size is 0, exiting...")
+	if size == 0 || size < 4 {
+		fmt.Println("Mininum password size is 4")
 		return
 	}
 
 	startsWith, _ := selectStartsWith()
 	endsWith, _ := selectEndsWith()
 
-	withNumbers, _ := inputYesOrNo("Should the password contain numbers?")
-	withSpecialChar, _ := inputYesOrNo("Should the password contain special characters?")
+	withNumbers, _ = inputYesOrNo("Should the password contain numbers?")
+	withSpecialChar, _ = inputYesOrNo("Should the password contain special characters?")
 
 	password := &password{
 		Size:            size,
@@ -38,7 +41,11 @@ func main() {
 		WithSpecialChar: withSpecialChar,
 	}
 
-	generatedPassword := generatePassword(password)
+	generatedPassword, err := generatePassword(password)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 
-	fmt.Println("Generated password:", generatedPassword)
+	fmt.Println("\nGenerated password:", generatedPassword)
 }
